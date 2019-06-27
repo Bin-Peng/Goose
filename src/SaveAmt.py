@@ -3,7 +3,7 @@ import sys
 
 import json
 
-import src.CalculateAmt
+from Goose.src import CalculateAmt
 
 
 def showTitle():
@@ -11,10 +11,10 @@ def showTitle():
     print("下金蛋的鹅:50%   梦想储蓄罐：30%    零花钱：20%")
 
 
-configPath = 'config'
+configPath = 'resource'
 showTitle()
 income = float(input("请输入收入金额:"))
-calcAmt = src.CalculateAmt.CalculateAmt()
+calcAmt = CalculateAmt.CalculateAmt()
 calcAmt.calcAmt(income)
 account_old = {}
 with open(configPath + '/Amt.json', 'r') as account_j:

@@ -2,7 +2,7 @@ import json
 
 
 def showAmt():
-    with open('config/Amt.json', 'r') as amt_j:
+    with open('resouce/Amt.json', 'r') as amt_j:
         amt = json.load(amt_j)
         amtSum = amt['gooseMoney'] + amt['dreamMoney'] + amt['pocketMoney']
         print('当前账户余额:', amt['gooseMoney'] + amt['dreamMoney'] + amt['pocketMoney'])
