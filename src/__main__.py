@@ -1,7 +1,5 @@
 # 程序启动界面
-import src
-from src.account import Account
-from src.account.AccountMng import AccountMng
+from Goose.src.account.account import AccountMng, Account
 
 
 def start():
@@ -26,9 +24,9 @@ def start():
         income = float(input())
     elif opr_num == 3:
         print("输入账户信息")
-        new_acct = Account.Account()
+        new_acct = Account()
         new_acct.actName = input("请输入账户名称：")
-        new_acct.money= input("请输入账户余额：")
+        new_acct.money = input("请输入账户余额：")
         manager.add(new_acct)
         print("账户新增完成")
     elif opr_num == 4:
@@ -38,5 +36,3 @@ def start():
 
 if __name__ == "__main__":
     start()
-
-

@@ -24,12 +24,11 @@ class AccountMng(object):
         self.dbMng = db.ActTable()
 
     def add(self, account: Account):
-        self.dbMng.
-        self.accountDict[account]
+        return self.dbMng.add_act(account)
 
     def dele(self, account):
-
         return self
+
     def update(self, account):
         return self
 
