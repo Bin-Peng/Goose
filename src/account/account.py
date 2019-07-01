@@ -1,8 +1,7 @@
 # 账户类  每个资金账户都应该以这个为单位
-from Goose.src.db import db
 
 
-class Account(object):
+class Account:
     def __init__(self):
         # 账户名称
         self.actName = ""
@@ -18,19 +17,4 @@ class Account(object):
         self.actSubAccount: dict = []
 
 
-class AccountMng(object):
-    def __init__(self):
-        self.accountDict = []
-        self.dbMng = db.ActTable()
 
-    def add(self, account: Account):
-        return self.dbMng.add_act(account)
-
-    def dele(self, account):
-        return self
-
-    def update(self, account):
-        return self
-
-    def display(self):
-        return self.account

@@ -1,5 +1,6 @@
 # 程序启动界面
-from Goose.src.account.account import AccountMng, Account
+from account.manager import AccountMng
+from src.account.account import  Account
 
 
 def start():

@@ -1,6 +1,3 @@
-import sys
-
-
 import json
 
 from Goose.src import CalculateAmt
