@@ -1,6 +1,6 @@
 # 程序启动界面
-from account.manager import AccountMng
-from src.account.account import  Account
+from src.account.account import Account
+from src.account.manager import AccountMng
 
 
 def start():
@@ -19,7 +19,7 @@ def start():
 
     if opr_num == 1:
         print("查看当前所有账户信息，请稍等……")
-        manager.display()
+        manager.display_all()
     elif opr_num == 2:
         print("拆分收入，请输入收入金额：")
         income = float(input())
@@ -29,7 +29,7 @@ def start():
         new_acct.actName = input("请输入账户名称：")
         new_acct.money = input("请输入账户余额：")
         manager.add(new_acct)
-        print("账户新增完成")
+        print("账户新增结束")
     elif opr_num == 4:
         print("修改账户信息，请输入账户名称：")
         acct_name = input()

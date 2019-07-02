@@ -4,8 +4,8 @@
 # @Author  : Michael
 # @File    : manager.py
 # @Software: PyCharm
-from account.account import Account
-from db import db
+from src.db import db
+from src.account.account import Account
 
 
 class AccountMng:
@@ -22,5 +22,9 @@ class AccountMng:
     def update(self, account):
         return self
 
-    def display(self):
+    def display(self, act_name):
         return self.account
+
+    def display_all(self):
+        act_all: dict = self.dbMng.get_act_all()
+        print(act_all)

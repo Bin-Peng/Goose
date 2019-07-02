@@ -1,6 +1,7 @@
 import json
 
-from db.constants import FILE_DIR
+#from db.constants import FILE_DIR
+from src.db.constants import FILE_DIR
 
 
 def connect_r(data_name):
