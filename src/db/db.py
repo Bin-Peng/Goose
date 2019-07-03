@@ -7,9 +7,6 @@
 import json
 
 # 读取数据库数据
-# from db import connect_r
-# from src.account.account import Account
-# from src.db.constants import FILE_DIR
 from src.account.account import Account
 from src.db import connect_r
 from src.db.constants import FILE_DIR
@@ -40,6 +37,12 @@ class ActTable(object):
             json.dump(self.acts, amt_n)
             print("账户添加成功,account: ", self.acts.get(account.actName))
         return True
+
+    def dele_act(self, act_name):
+        self.acts.pop(act_name)
+        with open(FILE_DIR + "/Amt.json", "w") as amt_n:
+            json.dump(self.acts, amt_n)
+            return self.acts
 
     # 获取单账户数据
     def get_act(self, name):

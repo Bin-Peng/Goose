@@ -4,8 +4,8 @@
 # @Author  : Michael
 # @File    : manager.py
 # @Software: PyCharm
-from src.db import db
 from src.account.account import Account
+from src.db import db
 
 
 class AccountMng:
@@ -17,7 +17,7 @@ class AccountMng:
         return self.dbMng.add_act(account)
 
     def dele(self, account):
-        return self
+        return self.dbMng.dele_act(account.actName)
 
     def update(self, account):
         return self
@@ -25,6 +25,19 @@ class AccountMng:
     def display(self, act_name):
         return self.account
 
+    def get_act_all(self):
+        act_all = self.dbMng.get_act_all()
+        return act_all
+
     def display_all(self):
         act_all: dict = self.dbMng.get_act_all()
         print(act_all)
+
+    # TODO 1）拆分比例可配置
+    # TODO 2）可按照当前根目录账户数进行比例分配
+    def split_income(self, income: float):
+        income_split = {}
+        income_split["下金蛋的鹅"] = income * 0.5
+        income_split["梦想储蓄罐"] = income * 0.3
+        income_split["零花钱"] = income * 0.2
+        return income_split
