@@ -2,6 +2,7 @@
 from src.account.account import Account
 from src.account.manager import AccountMng
 
+
 def showTitle():
     print()
     print("===========================")
@@ -12,6 +13,7 @@ def showTitle():
     print("**** 4.修改账户信息 ****")
     print("**** 5.删除账户信息 ****")
 
+
 def start():
     showTitle()
     # 选择输入
@@ -21,6 +23,7 @@ def start():
     ## 执行增删改查操作
     if opr_num == 1:
         print("查看当前所有账户信息，请稍等……")
+
         manager.display_all()
     elif opr_num == 2:
         print("拆分收入，请输入收入金额：")
@@ -29,9 +32,7 @@ def start():
         print(sp_income)
     elif opr_num == 3:
         print("输入账户信息")
-        new_acct = Account()
-        new_acct.actName = input("请输入账户名称：")
-        new_acct.money = input("请输入账户余额：")
+        new_acct = manager.create()
         manager.add(new_acct)
         print("账户新增结束")
     elif opr_num == 4:
@@ -47,6 +48,5 @@ def start():
 
 if __name__ == "__main__":
     print("**** 欢迎光临个人理财计算器 ****")
-    print()
     while True:
         start()
