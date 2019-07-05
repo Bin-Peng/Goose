@@ -14,7 +14,7 @@ class Account:
         # 账户盈利
         self.income: float = 0
         # 子账户字典
-        self.actSubAccount: dict = []
+        self.act_sub_acct_name: dict = []
 
 
 
