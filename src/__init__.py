@@ -8,12 +8,17 @@ count_money_pool = ThreadPoolExecutor(max_workers=1)
 
 def count_money():
     manager = AccountMng()
+    lock = manager.get_lock()
+    lock.acquire()
     act_all: dict = manager.get_act_all()
     acct_list: list[Account] = list(act_all.values())
     # while True:
     for act_dict in acct_list:  # type: Account
-        act = Account(**act_dict)
-        parent_act: Account = Account(**act_all[act.act_parent_name])
+        act = Account.create(**act_dict)
+        if act.act_parent_name == "root":
+            continue
+        parent_act_dict = act_all[act.act_parent_name]
+        parent_act: Account = Account.create(**parent_act_dict)
         sub_act_name_list: list = parent_act.act_sub_acct_name
         sub_act_name_list.append(act.actName)
         parent_act.act_sub_acct_name = set(sub_act_name_list)
@@ -23,6 +28,8 @@ def count_money():
             sub_acct_money = sub_acct_money + act_all[sub_acct].money
         act.money = sub_acct_money
         act_all.setdefault(act.actName, act)
+    manager.set_act_all(act_all)
+    lock.release()
 
 
 count_money_pool.submit(count_money(), "总金额计算")

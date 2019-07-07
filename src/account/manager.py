@@ -4,7 +4,6 @@
 # @Author  : Michael
 # @File    : manager.py
 # @Software: PyCharm
-
 from src.account.account import Account
 from src.db import db
 
@@ -33,6 +32,9 @@ class AccountMng:
     def update(self, account):
         return self
 
+    def set_act_all(self, act_all):
+        self.dbMng.set_act_all(act_all)
+
     def display(self, act_name):
         return self.account
 
@@ -46,6 +48,9 @@ class AccountMng:
         for act in act_all.values():
             print(act)
         print("*******")
+
+    def get_lock(self):
+        return self.dbMng.get_lock()
 
     # TODO 1）拆分比例可配置
     # TODO 2）可按照当前根目录账户数进行比例分配

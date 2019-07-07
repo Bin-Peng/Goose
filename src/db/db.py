@@ -6,10 +6,12 @@
 # @Software: PyCharm
 import json
 
-# 读取数据库数据
 from src.account.account import Account
-from src.db import connect_r
+from src.db import connect_r, R
 from src.db.constants import FILE_DIR
+
+
+# 读取数据库数据
 
 
 class ActTable(object):
@@ -18,14 +20,20 @@ class ActTable(object):
 
     # 写入数据
     def add_act(self, account: Account()):
+        R.acquire()
         if account.actName in self.acts.keys():
             print("账户已存在，账户添加失败，account: ", self.acts.get(account.actName))
             return False
         self.acts.setdefault(account.actName, account.__dict__)
+        R.release()
+        return True
+
+    def set_act_all(self, act_all):
+        R.acquire()
         with open(FILE_DIR + "/Amt.json", "w") as amt_n:
-            json.dump(self.acts, amt_n)
-            print("账户添加成功,account: ", self.acts.get(account.actName))
-            return True
+            json.dump(act_all, amt_n)
+            print("全账户更新成功")
+        R.release()
 
     def dele_act(self, act_name):
         self.acts.pop(act_name)
@@ -40,3 +48,6 @@ class ActTable(object):
     # 获取所有账户数据
     def get_act_all(self):
         return self.acts
+
+    def get_lock(self):
+        return R
