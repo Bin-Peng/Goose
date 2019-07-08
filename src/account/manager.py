@@ -19,12 +19,12 @@ class AccountMng:
         new_acct.money = float(input("请输入账户余额："))
         new_acct.rates = float(input("请输入账户利率："))
         new_acct.act_parent_name = input("请输入父账户名称：")
-        if new_acct.act_parent_name == "":
+        if new_acct.act_parent_name == '':
             new_acct.act_parent_name = "root"
         return new_acct
 
     def add(self, account: Account):
-        return self.dbMng.add_act(account)
+        return self.dbMng.insert_act(account)
 
     def dele(self, account):
         return self.dbMng.dele_act(account.actName)

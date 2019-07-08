@@ -18,13 +18,13 @@ class ActTable(object):
     def __init__(self):
         self.acts: dict = connect_r("Amt.json")
 
-    # 写入数据
-    def add_act(self, account: Account()):
+    # 插入数据
+    def insert_act(self, account: Account()):
         R.acquire()
-        if account.actName in self.acts.keys():
-            print("账户已存在，账户添加失败，account: ", self.acts.get(account.actName))
-            return False
         self.acts.setdefault(account.actName, account.__dict__)
+        with open(FILE_DIR + "/Amt.json", "w") as amt_n:
+            json.dump(self.acts, amt_n)
+            print("账户添加成功,account: ", self.acts.get(account.actName))
         R.release()
         return True
 
@@ -45,7 +45,7 @@ class ActTable(object):
 
     # 获取所有账户数据
     def get_act_all(self):
-        return self.acts
+        return connect_r("Amt.json")
 
     def get_lock(self):
         return R

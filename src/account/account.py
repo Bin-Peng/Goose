@@ -5,12 +5,14 @@
 # @File    : manager.py
 # @Software: PyCharm
 # 账户类  每个资金账户都应该以这个为单位
+from account import constants_act
 
 
 class Account:
     def __init__(self):
+        constants_act
         # 账户名称
-        self.ACT_NAME = ""
+        self.actName = ""
         # 账户盈利
         self.income: float = 0
         # 账户金额

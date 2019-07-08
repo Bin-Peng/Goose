@@ -1,4 +1,7 @@
 # 程序启动界面
+from threading import Timer
+
+from src import count_money
 from src.account.account import Account
 from src.account.manager import AccountMng
 
@@ -43,10 +46,13 @@ def start():
         del_acct = Account()
         del_acct.actName = acct_name
         acct_all = manager.dele(del_acct)
-        print("删除成功，accounts:", acct_all)
+        print("删除成功")
+        for act in acct_all.values():
+            print(act)
 
 
 if __name__ == "__main__":
     print("**** 欢迎光临个人理财计算器 ****")
+    Timer(1, count_money, ()).start()
     while True:
         start()
