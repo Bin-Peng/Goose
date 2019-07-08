@@ -10,7 +10,7 @@
 class Account:
     def __init__(self):
         # 账户名称
-        self.actName = ""
+        self.ACT_NAME = ""
         # 账户盈利
         self.income: float = 0
         # 账户金额
