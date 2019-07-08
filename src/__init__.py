@@ -1,7 +1,7 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 
 from src.account.account import Account
-from src.account.constants_act import MONEY, ACT_SUB_ACCT_NAME
+from src.account.constants_act import MONEY, ACT_SUB_ACCT_NAME, ACT_NAME
 from src.account.manager import AccountMng
 
 count_money_pool = ThreadPoolExecutor(max_workers=1)
@@ -21,8 +21,9 @@ def count_money():
         parent_act: Account = Account.create(**parent_act_dict)
         sub_act_name_list: list = parent_act.act_sub_acct_name
         sub_act_name_list.append(act.actName)
-        parent_act.act_sub_acct_name = set(sub_act_name_list)
-        act_all.setdefault(parent_act.actName, parent_act)
+        parent_act_dict[ACT_SUB_ACCT_NAME] = list(set(sub_act_name_list))
+        update_parent_act_dict = {parent_act_dict[ACT_NAME]: parent_act_dict}
+        act_all.update(update_parent_act_dict)
         sub_acct_money = 0
         for sub_acct in act.act_sub_acct_name:
             sub_acct_money = sub_acct_money + act_all[sub_acct][MONEY]
