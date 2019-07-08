@@ -29,11 +29,9 @@ class ActTable(object):
         return True
 
     def set_act_all(self, act_all):
-        R.acquire()
         with open(FILE_DIR + "/Amt.json", "w") as amt_n:
             json.dump(act_all, amt_n)
             print("全账户更新成功")
-        R.release()
 
     def dele_act(self, act_name):
         self.acts.pop(act_name)
