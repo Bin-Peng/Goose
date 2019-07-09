@@ -1,5 +1,10 @@
 # 程序启动界面
+import threading
+from sqlite3.dbapi2 import Time
 from threading import Timer
+from time import sleep
+
+import schedule as schedule
 
 from src import count_money
 from src.account.account import Account
@@ -53,6 +58,8 @@ def start():
 
 if __name__ == "__main__":
     print("**** 欢迎光临个人理财计算器 ****")
-    Timer(1, count_money, ()).start()
+    schedule.every(1).seconds.do(count_money)
     while True:
+        schedule.run_pending()
         start()
+
