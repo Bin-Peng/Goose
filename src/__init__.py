@@ -1,6 +1,5 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 
-from src.account.account import Account
 from src.account.constants_act import MONEY, ACT_SUB_ACCT_NAME, ACT_NAME, ACT_PARENT_NAME
 from src.account.manager import AccountMng
 
@@ -23,7 +22,7 @@ def count_money():
     # 保存子账户集合
     for value in act_all.values():  # type: dict
         act_parent_name = value[ACT_PARENT_NAME]
-        if act_parent_name not in sub_act_name_dict:
+        if act_parent_name not in sub_act_name_dict.keys():
             sub_act_name_dict.setdefault(act_parent_name, [value[ACT_NAME]])
         else:
             name = sub_act_name_dict[act_parent_name]
@@ -31,44 +30,26 @@ def count_money():
             update_dict = {act_parent_name: name}
             sub_act_name_dict.update(update_dict)
 
-    # lock = manager.get_lock()
-    #
-    # update_act_all = False
-    #
-    # acct_list: list[Account] = list(act_all.values())
-    # for act_dict in acct_list:  # type: Account
-    #     act = Account.create(**act_dict)
-    #     if act.act_parent_name == "root":
-    #         continue
-    #     elif act.act_parent_name not in act_all.keys():
-    #         continue
-    #     parent_act_dict = act_all[act.act_parent_name]
-    #     parent_act: Account = Account.create(**parent_act_dict)
-    #
-    #     # 父账户更新子账户字典
-    #     if act.actName not in parent_act.act_sub_acct_name:
-    #         update_act_all = True
-    #         sub_act_name_dict: list = parent_act.act_sub_acct_name
-    #         sub_act_name_dict.append(act.actName)
-    #         parent_act_dict[ACT_SUB_ACCT_NAME] = list(set(sub_act_name_dict))
-    #         old_sub_act[parent_act.actName] = sub_act_name_dict
-    #         if old_money[act.actName] is None:
-    #             old_money[act.actName] = -1
-    #
-    #     # 父账户更新总收入
-    #     if act.money != old_money[act.actName]:
-    #         update_act_all = True
-    #         parent_money = parent_act.money + act.money
-    #         parent_act_dict[MONEY] = parent_money
-    #         old_money[parent_act.actName] = parent_money
-    #         old_money[act.actName] = act.money
-    #
-    #     # 更新进总账户中
-    #     if update_act_all:
-    #         update_parent_act_dict = {parent_act_dict[ACT_NAME]: parent_act_dict}
-    #         act_all.update(update_parent_act_dict)
-    # if update_act_all:
-    #     lock.acquire()
-    #     manager.set_act_all(act_all)
-    #     lock.release()
-    #     update_act_all = False
+    # 更新act_all 并保存数据库
+    sub_act_name_dict.pop("root")
+    for key in sub_act_name_dict.keys():
+        act_all[key][ACT_SUB_ACCT_NAME] = sub_act_name_dict[key]
+    lock = manager.get_lock()
+    lock.acquire()
+    manager.set_act_all(act_all)
+    lock.release()
+    # 计算所有子账户资金
+    for value in act_all.values():
+        if value[ACT_SUB_ACCT_NAME] is not None:
+            money = 0
+            list = value[ACT_SUB_ACCT_NAME]
+
+            for act_name in list:
+                money = act_all[act_name][MONEY] + money
+            if len(list):
+                value[MONEY] = money
+            act_all.update({value[ACT_NAME]: value})
+    # 保存数据库
+    lock.acquire()
+    manager.set_act_all(act_all)
+    lock.release()
