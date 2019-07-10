@@ -58,8 +58,7 @@ def start():
 
 if __name__ == "__main__":
     print("**** 欢迎光临个人理财计算器 ****")
-    schedule.every(1).seconds.do(count_money)
     while True:
-        schedule.run_pending()
         start()
+
 

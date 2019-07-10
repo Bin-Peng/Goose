@@ -1,3 +1,5 @@
+import logging
+import threading
 from concurrent.futures.thread import ThreadPoolExecutor
 
 from src.account.constants_act import MONEY, ACT_SUB_ACCT_NAME, ACT_NAME, ACT_PARENT_NAME
@@ -14,10 +16,9 @@ count_money_pool = ThreadPoolExecutor(max_workers=1)
 
 
 def count_money():
-    print("后台计算金额")
+    # print("后台计算金额")
     manager = AccountMng()
     sub_act_name_dict: dict = {}
-    old_sub_act = {}
     act_all: dict = manager.get_act_all()
     # 保存子账户集合
     for value in act_all.values():  # type: dict
@@ -53,3 +54,8 @@ def count_money():
     lock.acquire()
     manager.set_act_all(act_all)
     lock.release()
+    timer = threading.Timer(1, count_money)
+    timer.start()
+
+
+count_money()
