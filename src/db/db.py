@@ -6,6 +6,7 @@
 # @Software: PyCharm
 import json
 
+from src import ACT_NAME
 from src.account.account import Account
 from src.db import connect_r, R
 from src.db.constants import FILE_DIR
@@ -26,21 +27,32 @@ class ActTable(object):
             json.dump(self.acts, amt_n)
             print("账户添加成功,account: ", self.acts.get(account.actName))
         R.release()
+        self.acts = connect_r("Amt.json")
         return True
+
+    def update_act(self, act):
+        R.acquire()
+        self.acts.update({act[ACT_NAME]: act})
+        with open(FILE_DIR + "/Amt.json", "w") as amt_n:
+            json.dump(self.acts, amt_n)
+            print("账户更新成功,account: ", self.acts.get(act[ACT_NAME]))
+        R.release()
 
     def set_act_all(self, act_all):
         with open(FILE_DIR + "/Amt.json", "w") as amt_n:
             json.dump(act_all, amt_n)
+        self.acts = connect_r("Amt.json")
 
     def dele_act(self, act_name):
         self.acts.pop(act_name)
         with open(FILE_DIR + "/Amt.json", "w") as amt_n:
             json.dump(self.acts, amt_n)
-            return self.acts
+        self.acts = connect_r("Amt.json")
+        return self.acts
 
     # 获取单账户数据
     def get_act(self, name):
-        pass
+        return self.acts[name]
 
     # 获取所有账户数据
     def get_act_all(self):

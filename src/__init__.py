@@ -1,4 +1,3 @@
-import logging
 import threading
 from concurrent.futures.thread import ThreadPoolExecutor
 
@@ -46,7 +45,7 @@ def count_money():
             list = value[ACT_SUB_ACCT_NAME]
 
             for act_name in list:
-                money = act_all[act_name][MONEY] + money
+                money = float(act_all[act_name][MONEY]) + money
             if len(list):
                 value[MONEY] = money
             act_all.update({value[ACT_NAME]: value})

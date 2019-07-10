@@ -29,7 +29,14 @@ class AccountMng:
     def dele(self, account):
         return self.dbMng.dele_act(account.actName)
 
-    def update(self, account):
+    def update_act(self, act_name):
+        act: dict = self.dbMng.get_act(act_name)
+        for key, value in act.items():
+            print(key + ":" + str(value))
+            value = input("请输入修改后值：")
+            if value != "":
+                act[key] = value
+        self.dbMng.update_act(act)
         return self
 
     def set_act_all(self, act_all):

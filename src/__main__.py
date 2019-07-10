@@ -1,12 +1,5 @@
 # 程序启动界面
-import threading
-from sqlite3.dbapi2 import Time
-from threading import Timer
-from time import sleep
 
-import schedule as schedule
-
-from src import count_money
 from src.account.account import Account
 from src.account.manager import AccountMng
 
@@ -31,7 +24,6 @@ def start():
     ## 执行增删改查操作
     if opr_num == 1:
         print("查看当前所有账户信息，请稍等……")
-
         manager.display_all()
     elif opr_num == 2:
         print("拆分收入，请输入收入金额：")
@@ -46,6 +38,8 @@ def start():
     elif opr_num == 4:
         print("修改账户信息，请输入账户名称：")
         acct_name = input()
+        manager.update_act(acct_name)
+
     elif opr_num == 5:
         acct_name = input("请输入账户名称：1")
         del_acct = Account()
@@ -60,5 +54,3 @@ if __name__ == "__main__":
     print("**** 欢迎光临个人理财计算器 ****")
     while True:
         start()
-
-
